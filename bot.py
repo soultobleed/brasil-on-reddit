@@ -2,6 +2,7 @@ import time
 import os
 import logging
 import praw
+import re
 from config import *
 
 
@@ -55,7 +56,9 @@ def monitor(reddit, submissions_found):
     counter = 0
     for submission in reddit.subreddit(SUBREDDITS_TO_MONITOR).hot(limit=SEARCH_LIMIT):
         for expression in EXPRESSIONS_TO_MONITOR:
-            if expression in submission.title.lower() and submission.id not in submissions_found:
+            expression = re.compile(expression, re.I)
+            if expression.match(submission.title) and submission.id not in submissions_found:
+                logging.info('Found it! {}'.format(submission.title))
                 process_submission(reddit, submission)
                 submissions_found.append(submission.id)
                 counter += 1
@@ -90,11 +93,11 @@ def main():
     # Monitor Reddit for new submissions
     submissions_found = get_submissions_processed()
     while True:
-        try:
+    #    try:
             monitor(reddit, submissions_found)
-        except Exception as e:
-            logging.warning("Random exception occurred: {}".format(e))
-            time.sleep(WAIT_TIME * 60)
+    #    except Exception as e:
+    #        logging.warning("Random exception occurred: {}".format(e))
+    #        time.sleep(WAIT_TIME * 60)
 
 
 if __name__ == '__main__':
