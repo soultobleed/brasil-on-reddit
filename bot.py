@@ -93,11 +93,11 @@ def main():
     # Monitor Reddit for new submissions
     submissions_found = get_submissions_processed()
     while True:
-    #    try:
+        try:
             monitor(reddit, submissions_found)
-    #    except Exception as e:
-    #        logging.warning("Random exception occurred: {}".format(e))
-    #        time.sleep(WAIT_TIME * 60)
+        except Exception as e:
+            logging.warning("Random exception occurred: {}".format(e))
+            time.sleep(WAIT_TIME * 60)
 
 
 if __name__ == '__main__':
