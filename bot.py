@@ -1,3 +1,4 @@
+# coding: utf-8
 import time
 import os
 import logging
@@ -10,7 +11,7 @@ logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(asctime)s - %(m
 # logging.disable(logging.CRITICAL)
 
 
-def authenticate():
+def auth():
     logging.info("Authenticating...")
     reddit = praw.Reddit('OnReddit', user_agent=USER_AGENT)
     logging.info("Authenticated as {}".format(reddit.user.me()))
@@ -40,6 +41,7 @@ def process_submission(reddit, submission):
 
 
 def new_post(subreddit, title, url, source_url):
+    logging.info(title)
     if POST_MODE == 'direct':
         post = subreddit.submit(title, url=url)
         comment_text = "[Link to original post here]({})".format(source_url)
@@ -54,17 +56,17 @@ def new_post(subreddit, title, url, source_url):
 
 def monitor(reddit, submissions_found):
     counter = 0
-    for submission in reddit.subreddit(SUBREDDITS_TO_MONITOR).hot(limit=SEARCH_LIMIT):
-        for expression in EXPRESSIONS_TO_MONITOR:
-            expression = re.compile(expression, re.I)
-            if expression.match(submission.title) and submission.id not in submissions_found:
-                logging.info('Found it! {}'.format(submission.title))
-                process_submission(reddit, submission)
-                submissions_found.append(submission.id)
-                counter += 1
-
-                with open('submissions_processed.txt', 'a') as f:
-                    f.write(submission.id + '\n')
+    with open('submissions_processed.txt', 'a') as f:
+        for submission in reddit.subreddit(SUBREDDITS_TO_MONITOR).hot(limit=SEARCH_LIMIT):
+            logging.debug(u'Submission: {}'.format(submission.title))
+            for expression in EXPRESSIONS_TO_MONITOR:
+                expression = re.compile(expression, re.I) # Ignore case
+                if expression.match(submission.title) and submission.id not in submissions_found:
+                    logging.info(u'Found it! {}'.format(submission.title))
+                    process_submission(reddit, submission)
+                    submissions_found.append(submission.id)
+                    counter += 1
+                    f.write(submission.id)    
 
     logging.info(str(counter) + ' submission(s) found')  # log results
 
@@ -85,11 +87,9 @@ def get_submissions_processed():
 
 
 def main():
-    print('Reddit bot running...')
-
+    logging.info('Reddit bot running...')
     # Authentication
-    reddit = authenticate()
-
+    reddit = auth()
     # Monitor Reddit for new submissions
     submissions_found = get_submissions_processed()
     while True:

@@ -6,8 +6,8 @@ USER_AGENT = 'A bot that runs r/BrasilOnReddit. Created by u/Synergix for Portug
 # Subreddit where the bot will post
 SUBREDDIT_TO_POST = 'BrasilOnReddit'
 
-# Expressions to monitor for
-EXPRESSIONS_TO_MONITOR = [r'br[a|e][s|z]il(eir[a-z]|i[a|e]ns)?\b']
+# A list of expressions to monitor for, make sure to use regexes here as it will be parsed by re.match()
+EXPRESSIONS_TO_MONITOR = [r'^.*br[a|e][s|z]il(eir[a-z]|i[a|e]ns)?\b']
 
 # Subreddits to monitor for (+ to monitor multiple subreddits; - to exclude a subreddit)
 SUBREDDITS_TO_MONITOR = 'all-BrasilOnReddit-brasil-a7arte-AJS_BR-Ajuda-AjudaBrasil-artebrasileira-batepapo-BeloHorizonte-bestofbrasil-Bolsonaro-Bovespa-br4r-brasil2-brasil420-brasil_drama-Brasilandia-Brasilball-BrasilBitcoin-brasildemocratico-BrasildoB-brasilivre-brasilpics-brazilianmusic-brdev-BRSExplica-brugal-carreiras-ciencias-CinemaBrasil-circojeca-concursospublicos-Corinthians-craftmybox-curitiba-desabafos-Dota2BRa-Dota2Brasil-Escalada-EscritoresBrasil-eu_nvr-filmes-filmeseseries-foradecasa-futebol-g1comments-Gambiarra-gororoba-investimentos-jogatina-jogos-leagueoflegendsbrazil-Libertarianismo-linuxbrasil-Livros-maconha-Maromba-masqueporra-medoiosoio-merdasbrasildiz-Monarquia-motoca-MUSICA-musicanova-naoesensacionalista-NerdPowerBR-oBitcoin-palmeiras-Parana-PokemonGOBrasil-Portuguese-Psicanalise-Recife-riodejaneiro-riograndedosul-saopaulo-Semeando-southamerica-territoriolivre-tiodopave-veganismobrasil-youtubebrasil-ZeroQuatroMidia'

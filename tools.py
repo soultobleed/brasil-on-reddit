@@ -1,18 +1,11 @@
+# coding: utf-8
 import praw
-from bot import process_submission
+from bot import process_submission, auth
 from config import *
 import sys
 from collections import defaultdict
 import pprint
 import matplotlib.pyplot as plt
-
-
-def authenticate():
-    print("Authenticating...")
-    reddit = praw.Reddit('OnReddit', user_agent='BrasilOnReddit v0.1')
-    print("Authenticated as {}".format(reddit.user.me()))
-    return reddit
-
 
 def start_subreddit(reddit):
     submissions_number = 0
@@ -31,7 +24,6 @@ def delete_posts(reddit):
     i = 0
     for submission in reddit.subreddit('BrasilOnReddit').hot(limit=100):
         if "BrasilOnReddit" not in submission.title:
-            # print(submission.title)
             submission.delete()
             i += 1
 
@@ -90,15 +82,15 @@ def stats(reddit):
 
     plt.show()
 
-try:
-    tool = sys.argv[1]
-except IndexError:
-    tool = "stats"
-
-reddit = authenticate()
-if tool == "start":
-    start_subreddit(reddit)
-elif tool == "delete":
-    delete_posts(reddit)
-elif tool == "stats":
-    stats(reddit)
+#try:
+#    tool = sys.argv[1]
+#except IndexError:
+#    tool = "stats"
+#
+#reddit = auth()
+#if tool == "start":
+#    start_subreddit(reddit)
+#elif tool == "delete":
+#    delete_posts(reddit)
+#elif tool == "stats":
+#    stats(reddit)
